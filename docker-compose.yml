@@ -1,0 +1,30 @@
+services:
+  web:
+    build: ./web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./web:/app
+    depends_on:
+      - meteo-service
+      - nominatim-service
+    networks:
+      - weather-network
+
+  meteo-service:
+    build: ./meteo-service
+    volumes:
+      - ./meteo-service:/app
+    networks:
+      - weather-network
+
+  nominatim-service:
+    build: ./nominatim-service
+    volumes:
+      - ./nominatim-service:/app
+    networks:
+      - weather-network
+
+networks:
+  weather-network:
+    driver: bridge
